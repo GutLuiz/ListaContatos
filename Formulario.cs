@@ -19,7 +19,7 @@ namespace Contatos
 
         public Formulario() { }
 
-        // Fazendo um construtor com if (se nome  ou numero 1 estiver vazio lança uma exceção)
+        // Fazendo um construtor com if (se nome estiver vazio lança uma exceção)
         public Formulario( string nome, string empresa, string numero1, string numero2, string fixo1, string fixo2)
         {
             if (string.IsNullOrEmpty(nome))

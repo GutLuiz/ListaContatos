@@ -15,10 +15,13 @@ namespace Contatos
             InitializeComponent();
             CustomizeDataGridView();
         }
-
+        
+        // Metodo que é chamado automaticamente quando o formulario é carregado pela primeira vez.
         private void Form1_Load(object sender, EventArgs e)
         {
+            // chamando o metodo para quando começar a aplicação tenha ja os dados nas grades
             ObterDados();
+            // chamando o metodo que é um controle do dataGrid com o clear que desmarcaa qualquer celularr, linha ou coluna selecionada
             dataGridView1.ClearSelection();
         }
 
@@ -38,6 +41,7 @@ namespace Contatos
 
         private void bntPesquisar_Click(object sender, EventArgs e) { }
 
+        //Botão adicionar:
         private void bntAdicionar_Click(object sender, EventArgs e)
         {
             try
@@ -49,7 +53,7 @@ namespace Contatos
                 var fixo1 = textBoxCofixo1.Text;
                 var fixo2 = textBoxCofixo2.Text;
 
-                // Verificar duplicação
+                // Verificando duplicação
                 foreach (var item in Formularios)
                 {
                     if (item.Nome == nome)
@@ -59,10 +63,11 @@ namespace Contatos
                     }
                 }
 
-                // Adicionar à lista
+                // Adicionando à lista
                 var lista = new Formulario(nome, empresa, numero1, numero2, fixo1, fixo2);
                 Formularios.Add(lista);
-
+                
+                // adicionando o metodo e armazenando no banco de dados
                 var repository = new ContatoRepositorio();
                 repository.Add(lista);
 
@@ -79,11 +84,14 @@ namespace Contatos
         {
             try
             {
+                // instancia a classe responsavel por acessar os dados dos contatos, o banco de dados
                 var repository = new ContatoRepositorio();
+                // chama o metodo  'get' do repositorio para obter a lista de formalarios (contatos)
                 Formularios = repository.Get();
+                // Limpa o DataGridView antes de adicionar novos itens
+                dataGridView1.Rows.Clear(); 
 
-                dataGridView1.Rows.Clear(); // Limpa o DataGridView antes de adicionar novos itens
-
+                // Itera sobre cada item na lista e adiciona uma nova linha ao "dataGrid" para cada item, preenchendo as colunas com os valores correspondentes
                 foreach (var item in Formularios)
                 {
                     dataGridView1.Rows.Add(item.Nome, item.Empresa, item.Numero1, item.Numero2, item.Fixo1, item.Fixo2);
@@ -107,21 +115,24 @@ namespace Contatos
 
         private void btnPesquisar_Click(object sender, EventArgs e)
         {
+            // chama o metodo BuscarProduto dentro do Botão pesquisar
             BuscarProduto();
         }  
           
         private void BuscarProduto()
         {
             try
-            {
+            {   // Iteração sobre as linhas do DataGridView sobre cada linha 
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
+                    //Verifica o texto "textBoxPesquisar" corresponde ao valor da celular "Nome". Se essa condição for verdadeira, a linha sera selecionada
                     if (textBoxPesquisar.Text == row.Cells["Nome"].Value.ToString())
                     {
                         row.Selected = true;
                         dataGridView1.FirstDisplayedScrollingRowIndex = row.Index; 
                         break;
                     }
+                  
                 }
             }
             catch (Exception ex)
@@ -130,10 +141,6 @@ namespace Contatos
             }
            
         }
-
-
-
-
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
 
