@@ -31,6 +31,37 @@ namespace Contatos.infraestrutura
             conn.Connection.Execute(sql: query, param: new { Nome = nome });
         }
 
+        //METODO PARA ATUALIZAR UM DADO
+        public bool Atualizar(Formulario formulario)
+        {
+            using var conn = new Conexaobd();
+
+            string query = @"UPDATE public.""Contatos"" 
+                            SET conempresa = @Empresa,
+                                concelular1 = @Numero1,
+                                concelular2 = @Numero2,
+                                confixo1 = @Fixo1,
+                                confixo2 = @Fixo2
+                            WHERE connome = @Nome;";
+
+            var paramentros = new
+            {
+                Empresa = formulario.Empresa,
+                Numero1 = formulario.Numero1,
+                Numero2 = formulario.Numero2,
+                Fixo1 = formulario.Fixo1,
+                Fixo2 = formulario.Fixo2,
+                Nome = formulario.Nome
+
+            };
+
+            int resultado = conn.Connection.Execute(sql: query, param: paramentros);
+
+
+            return resultado == 1; 
+                
+        }
+
         // METODO PARA MOSTRAR OS DADOS NA LISTA
         public List<Formulario> Get()
         {
@@ -53,20 +84,24 @@ namespace Contatos.infraestrutura
             }
         }
 
-        // METODO PARA DESCOBRIR SE EXISTE UM DADO NA LISTA
-        public bool ExisteFormulario(string nome, string empresa, string numero1)
+        // METODO PARA PESQUISAR  UM DADO NA LISTA
+        public List<Formulario> PesquisarContatos(string nome, string empresa, string numero1)
         {
             using var conn = new Conexaobd();
 
-            string query = @"SELECT COUNT(*) FROM ""Contatos"" 
+            string query = @"SELECT Concodigo, connome AS Nome, conempresa AS Empresa, 
+                            concelular1 AS Numero1, concelular2 AS Numero2, 
+                            confixo1 AS Fixo1, confixo2 AS Fixo2
+                     FROM ""Contatos"" 
                      WHERE connome = @Nome OR conempresa = @Empresa OR concelular1 = @Numero1";
 
             var parameters = new { Nome = nome, Empresa = empresa, Numero1 = numero1 };
 
-            int count = conn.Connection.QuerySingle<int>(sql: query, param: parameters);
+            var formularios = conn.Connection.Query<Formulario>(query, parameters).ToList();
 
-            return count > 0;
+            return formularios;
         }
+
 
     }
 

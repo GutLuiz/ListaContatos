@@ -9,13 +9,13 @@ namespace Contatos
      public class Formulario
     {
         //Encapsulando
-        public int Concodigo { get; private set; }
-        public string Nome {  get; private  set; }
-        public string Empresa { get; private set; }
-        public string Numero1  {  get; private  set; }
-        public string Numero2 {  get; private  set; }
-        public string Fixo1 {  get; private  set; }
-        public string Fixo2 {  get; private  set; }
+        public int Concodigo { get;  set; }
+        public string Nome {  get;   set; }
+        public string Empresa { get;  set; }
+        public string Numero1  {  get;   set; }
+        public string Numero2 {  get;   set; }
+        public string Fixo1 {  get;   set; }
+        public string Fixo2 {  get;   set; }
 
         public Formulario() { }
 

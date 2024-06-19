@@ -19,6 +19,7 @@ namespace Contatos
         private void Form1_Load(object sender, EventArgs e)
         {
             ObterDados();
+            dataGridView1.ClearSelection();
         }
 
         private void label1_Click(object sender, EventArgs e) { }
@@ -106,38 +107,93 @@ namespace Contatos
 
         private void btnPesquisar_Click(object sender, EventArgs e)
         {
+            BuscarProduto();
+        }  
+          
+        private void BuscarProduto()
+        {
             try
             {
-                dataGridView1.Rows.Clear();
-
-                var nome = txtBoxNome.Text;
-                var empresa = txtBoxEmpresa.Text;
-                var numero1 = textBoxCelular1.Text;
-
-                var repository = new ContatoRepositorio();
-                bool existe = repository.ExisteFormulario(nome, empresa, numero1);
-
-                if (!existe)
+                foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
-                    MessageBox.Show("Esse dado não está cadastrado no sistema");
-                }
-                else
-                {
-                    foreach (var item in Formularios)
+                    if (textBoxPesquisar.Text == row.Cells["Nome"].Value.ToString())
                     {
-                        dataGridView1.Rows.Add(item.Nome, item.Empresa, item.Numero1, item.Numero2, item.Fixo1, item.Fixo2);
+                        row.Selected = true;
+                        dataGridView1.FirstDisplayedScrollingRowIndex = row.Index; 
+                        break;
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show($"Erro ao obter dados: {ex.Message}");
             }
+           
         }
+
+
+
+
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
 
         private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e) { }
+
+
+        private void bntExcluir_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                var selecionada = dataGridView1.SelectedRows[0];
+                var nome = selecionada.Cells["Nome"].Value.ToString();
+
+                var repository = new ContatoRepositorio();
+                repository.Remover(nome);
+
+                dataGridView1.Rows.Remove(selecionada);
+
+                Formularios.RemoveAll(f => f.Nome == nome);
+
+                dataGridView1.ClearSelection(); 
+            }
+
+
+
+
+        }
+
+        private void btnAtualizar_Click(object sender, EventArgs e)
+        {
+            var nome = txtBoxNome.Text;
+            var empresa = txtBoxEmpresa.Text;
+            var numero1 = textBoxCelular1.Text;
+            var numero2 = textBoxCelular2.Text;
+            var fixo1 = textBoxCofixo1.Text;
+            var fixo2 = textBoxCofixo2.Text;
+
+            var formularioAtualizado = new Formulario
+            {
+                Nome = nome,
+                Empresa = empresa,
+                Numero1 = numero1,
+                Numero2 = numero2,
+                Fixo1 = fixo1,
+                Fixo2 = fixo2
+            };
+
+            var repository = new ContatoRepositorio();
+            bool atualizado = repository.Atualizar(formularioAtualizado);
+
+            if (atualizado)
+            {
+                MessageBox.Show("Informações atualizadas com sucesso");
+                ObterDados(); 
+            }
+            else
+            {
+                MessageBox.Show("Erro ao atualizar as informações");
+            }
+        }
 
         private void CustomizeDataGridView()
         {
@@ -161,42 +217,9 @@ namespace Contatos
             dataGridView1.Columns.Add("Fixo2", "Fixo 2");
         }
 
-        private void bntExcluir_Click(object sender, EventArgs e)
+        private void textBoxPesquisar_TextChanged(object sender, EventArgs e)
         {
-            if (dataGridView1.SelectedRows.Count > 0)
-            {
-                var selecionada = dataGridView1.SelectedRows[0];
-                var nome = selecionada.Cells["Nome"].Value.ToString();
 
-                var repository = new ContatoRepositorio();
-                repository.Remover(nome);
-
-                dataGridView1.Rows.Remove(selecionada);
-
-                Formularios.RemoveAll(f => f.Nome == nome);
-
-                // No need to reset DataSource and set it again.
-            }
-            else
-            {
-                MessageBox.Show("Selecione uma linha para excluir");
-            }
         }
-        private int lastSelectedRowIndex = -1;
-        private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.RowIndex >= 0 && e.RowIndex < dataGridView1.Rows.Count)
-            {
-                if (lastSelectedRowIndex == e.RowIndex)
-                {
-                    dataGridView1.ClearSelection();
-                    lastSelectedRowIndex = -1;
-                }
-                else
-                {
-                    lastSelectedRowIndex = e.RowIndex;
-                }
-            }
-        }
-        }
+    }
 }

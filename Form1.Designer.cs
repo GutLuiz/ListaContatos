@@ -199,7 +199,7 @@
             // 
             txtListaDeContato.AutoSize = true;
             txtListaDeContato.Font = new Font("Segoe UI", 20F);
-            txtListaDeContato.Location = new Point(137, 10);
+            txtListaDeContato.Location = new Point(232, 20);
             txtListaDeContato.Margin = new Padding(4, 0, 4, 0);
             txtListaDeContato.Name = "txtListaDeContato";
             txtListaDeContato.Size = new Size(243, 37);
@@ -216,6 +216,7 @@
             btnAtualizar.TabIndex = 14;
             btnAtualizar.Text = "Atualizar";
             btnAtualizar.UseVisualStyleBackColor = true;
+            btnAtualizar.Click += btnAtualizar_Click;
             // 
             // bntExcluir
             // 
@@ -280,6 +281,7 @@
             textBoxPesquisar.Name = "textBoxPesquisar";
             textBoxPesquisar.Size = new Size(315, 25);
             textBoxPesquisar.TabIndex = 20;
+            textBoxPesquisar.TextChanged += textBoxPesquisar_TextChanged;
             // 
             // txtFormulario
             // 
