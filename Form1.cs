@@ -132,7 +132,6 @@ namespace Contatos
                         dataGridView1.FirstDisplayedScrollingRowIndex = row.Index; 
                         break;
                     }
-                  
                 }
             }
             catch (Exception ex)
@@ -146,29 +145,31 @@ namespace Contatos
 
         private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e) { }
 
-
+        // Metodo para excluir uma linha do "dataGridView"
         private void bntExcluir_Click(object sender, EventArgs e)
         {
+            //verifica a seleção de linhas se for maior que 0 entra na condicional
             if (dataGridView1.SelectedRows.Count > 0)
             {
+                // Obtem a primeira linha selecionada e o valor da celular "Nome" dessa linha
                 var selecionada = dataGridView1.SelectedRows[0];
                 var nome = selecionada.Cells["Nome"].Value.ToString();
 
+                // Cria uma instancia e chama o metodo "remover" passado o nome para remover o ontato do repositorio de dados (banco de dados)
                 var repository = new ContatoRepositorio();
                 repository.Remover(nome);
 
+                //Remove a linha selecionada pelo "DataGridView"
                 dataGridView1.Rows.Remove(selecionada);
 
+                //Remove todos os itens da lista 'formularios' cujo 'nome' corresponda ao 'nome' do contato removido
                 Formularios.RemoveAll(f => f.Nome == nome);
 
+                // Limpa qualquer seleção restante no "DataGridView"
                 dataGridView1.ClearSelection(); 
             }
-
-
-
-
         }
-
+        //Metodo para atualizar uma linha
         private void btnAtualizar_Click(object sender, EventArgs e)
         {
             var nome = txtBoxNome.Text;
