@@ -115,31 +115,38 @@ namespace Contatos
 
         private void btnPesquisar_Click(object sender, EventArgs e)
         {
+            bool found = false; // Flag para verificar se algum dado foi encontrado
+
             try
-            {   // Iteração sobre as linhas do DataGridView sobre cada linha 
+            {
+                // Iteração sobre as linhas do DataGridView sobre cada linha 
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
-                    //Verifica o texto "textBoxPesquisar" corresponde ao valor da celular "Nome". Se essa condição for verdadeira, a linha sera selecionada
-                    if (textBoxPesquisar.Text.ToLower() == row.Cells["Nome"].Value.ToString().ToLower())
+                    // Verifica se o texto "textBoxPesquisar" corresponde a qualquer um dos valores das células
+                    if (textBoxPesquisar.Text.ToLower() == row.Cells["Nome"].Value.ToString().ToLower() ||
+                        textBoxPesquisar.Text.ToLower() == row.Cells["Empresa"].Value.ToString().ToLower() ||
+                        textBoxPesquisar.Text.ToLower() == row.Cells["Celular1"].Value.ToString().ToLower())
                     {
                         row.Selected = true;
                         dataGridView1.FirstDisplayedScrollingRowIndex = row.Index;
-                        break;
+                        found = true; // Marca que encontramos um dado correspondente
+                        break; // Sai do loop ao encontrar a primeira correspondência
                     }
-                    else
-                    {
-                        MessageBox.Show($"Nenhum dado encontrado");
-                        break;
-                    }
+                }
 
+                // Exibe mensagem se nenhum dado foi encontrado
+                if (!found)
+                {
+                    MessageBox.Show("Nenhum dado encontrado");
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro ao obter dados: {ex.Message}");
             }
-        } 
-        
+        }
+
+
         private void BuscarDados()
         {
               try
@@ -171,27 +178,40 @@ namespace Contatos
         // Metodo para excluir uma linha do "dataGridView"
         private void bntExcluir_Click(object sender, EventArgs e)
         {
-            //verifica a seleção de linhas se for maior que 0 entra na condicional
-            if (dataGridView1.SelectedRows.Count > 0)
+            try
             {
-                // Obtem a primeira linha selecionada e o valor da celular "Nome" dessa linha
-                var selecionada = dataGridView1.SelectedRows[0];
-                var nome = selecionada.Cells["Nome"].Value.ToString();
+                // verifica a seleção de linhas se for maior que 0 entra na condicional
+                if (dataGridView1.SelectedRows.Count > 0)
+                {
+                   
+                    // Obtem a primeira linha selecionada e o valor da celular "Nome" dessa linha
+                    var selecionada = dataGridView1.SelectedRows[0];
+                    var nome = selecionada.Cells["Nome"].Value.ToString();
 
-                // Cria uma instancia e chama o metodo "remover" passado o nome para remover o ontato do repositorio de dados (banco de dados)
-                var repository = new ContatoRepositorio();
-                repository.Remover(nome);
+                    // Cria uma instancia e chama o metodo "remover" passado o nome para remover o contato do repositorio de dados (banco de dados)
+                    var repository = new ContatoRepositorio();
+                    repository.Remover(nome);
 
-                //Remove a linha selecionada pelo "DataGridView"
-                dataGridView1.Rows.Remove(selecionada);
+                    // Remove a linha selecionada pelo "DataGridView"
+                    dataGridView1.Rows.Remove(selecionada);
 
-                //Remove todos os itens da lista 'formularios' cujo 'nome' corresponda ao 'nome' do contato removido
-                Formularios.RemoveAll(f => f.Nome == nome);
+                    // Remove todos os itens da lista 'formularios' cujo 'nome' corresponda ao 'nome' do contato removido
+                    Formularios.RemoveAll(f => f.Nome == nome);
 
-                // Limpa qualquer seleção restante no "DataGridView"
-                dataGridView1.ClearSelection(); 
+                    // Limpa qualquer seleção restante no "DataGridView"
+                    dataGridView1.ClearSelection();
+                }
+                else
+                {
+                    MessageBox.Show("Campo vazio, selecione um preenchido.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocorreu um erro: {ex.Message}");
             }
         }
+
         //Metodo para atualizar uma linha
         private void btnAtualizar_Click(object sender, EventArgs e)
         {
@@ -252,6 +272,7 @@ namespace Contatos
             dataGridView1.Columns.Add("Celular2", "Celular 2");
             dataGridView1.Columns.Add("Fixo1", "Fixo 1");
             dataGridView1.Columns.Add("Fixo2", "Fixo 2");
+            dataGridView1.AllowUserToAddRows = false;
         }
 
         private void textBoxPesquisar_TextChanged(object sender, EventArgs e)
