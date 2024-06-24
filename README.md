@@ -1,1 +1,0 @@
-Este projeto é um formulario feito no windows forms, nesse programa alem do formulario tem a lista de informções que o usuario adicionou, o programa de funcionalidades de Adcionar, excluir, atualizar e pesquisar.
