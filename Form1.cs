@@ -115,31 +115,54 @@ namespace Contatos
 
         private void btnPesquisar_Click(object sender, EventArgs e)
         {
-            // chama o metodo BuscarProduto dentro do Botão pesquisar
-            BuscarProduto();
-        }  
-          
-        private void BuscarProduto()
-        {
             try
             {   // Iteração sobre as linhas do DataGridView sobre cada linha 
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
                     //Verifica o texto "textBoxPesquisar" corresponde ao valor da celular "Nome". Se essa condição for verdadeira, a linha sera selecionada
-                    if (textBoxPesquisar.Text == row.Cells["Nome"].Value.ToString())
+                    if (textBoxPesquisar.Text.ToLower() == row.Cells["Nome"].Value.ToString().ToLower())
                     {
                         row.Selected = true;
-                        dataGridView1.FirstDisplayedScrollingRowIndex = row.Index; 
+                        dataGridView1.FirstDisplayedScrollingRowIndex = row.Index;
                         break;
                     }
+                    else
+                    {
+                        MessageBox.Show($"Nenhum dado encontrado");
+                        break;
+                    }
+
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro ao obter dados: {ex.Message}");
             }
-           
+        } 
+        
+        private void BuscarDados()
+        {
+              try
+            {   // Iteração sobre as linhas do DataGridView sobre cada linha 
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    //Verifica o texto "textBoxPesquisar" corresponde ao valor da celular "Nome". Se essa condição for verdadeira, a linha sera selecionada
+                    if (textBoxPesquisar.Text == row.Cells["Nome"].Value.ToString());
+                    {
+                        row.Selected = true;
+                        dataGridView1.FirstDisplayedScrollingRowIndex = row.Index;
+                        break;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao obter dados: {ex.Message}");
+            }
         }
+          
+        
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
 
@@ -172,6 +195,7 @@ namespace Contatos
         //Metodo para atualizar uma linha
         private void btnAtualizar_Click(object sender, EventArgs e)
         {
+            // Valores inseridos pelo usuario
             var nome = txtBoxNome.Text;
             var empresa = txtBoxEmpresa.Text;
             var numero1 = textBoxCelular1.Text;
@@ -179,6 +203,7 @@ namespace Contatos
             var fixo1 = textBoxCofixo1.Text;
             var fixo2 = textBoxCofixo2.Text;
 
+            //Cria uma nova instancia da classe 'Formulario' e preenche suas propriedades com os valores capturados
             var formularioAtualizado = new Formulario
             {
                 Nome = nome,
@@ -189,9 +214,11 @@ namespace Contatos
                 Fixo2 = fixo2
             };
 
+            //Cria uma instancia e chama o metodo atualizar passado o objeto 'FormularioAtualizado'
             var repository = new ContatoRepositorio();
             bool atualizado = repository.Atualizar(formularioAtualizado);
 
+            //Verificação se foi atualizado corretamente
             if (atualizado)
             {
                 MessageBox.Show("Informações atualizadas com sucesso");
@@ -205,6 +232,7 @@ namespace Contatos
 
         private void CustomizeDataGridView()
         {
+            //Estilo da Grade, linha alternadas, Cabeçalho, colunas
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.MultiSelect = false;
             dataGridView1.GridColor = Color.Black;
@@ -217,6 +245,7 @@ namespace Contatos
             dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
             dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
 
+            //Adição de colunas 
             dataGridView1.Columns.Add("Nome", "Nome");
             dataGridView1.Columns.Add("Empresa", "Empresa");
             dataGridView1.Columns.Add("Celular1", "Celular 1");
