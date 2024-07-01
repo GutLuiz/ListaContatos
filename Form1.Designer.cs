@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             txtNome = new Label();
@@ -51,6 +52,7 @@
             btnPesquisar = new Button();
             textBoxPesquisar = new TextBox();
             txtFormulario = new Label();
+            bntImprimir = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -186,12 +188,15 @@
             // 
             // bntAdicionar
             // 
-            bntAdicionar.Location = new Point(13, 590);
+            bntAdicionar.Image = (Image)resources.GetObject("bntAdicionar.Image");
+            bntAdicionar.ImageAlign = ContentAlignment.MiddleLeft;
+            bntAdicionar.Location = new Point(6, 590);
             bntAdicionar.Margin = new Padding(4);
             bntAdicionar.Name = "bntAdicionar";
-            bntAdicionar.Size = new Size(85, 30);
+            bntAdicionar.Size = new Size(105, 35);
             bntAdicionar.TabIndex = 12;
             bntAdicionar.Text = "Adicionar";
+            bntAdicionar.TextAlign = ContentAlignment.MiddleRight;
             bntAdicionar.UseVisualStyleBackColor = true;
             bntAdicionar.Click += bntAdicionar_Click;
             // 
@@ -209,23 +214,29 @@
             // 
             // btnAtualizar
             // 
-            btnAtualizar.Location = new Point(118, 590);
+            btnAtualizar.Image = (Image)resources.GetObject("btnAtualizar.Image");
+            btnAtualizar.ImageAlign = ContentAlignment.MiddleLeft;
+            btnAtualizar.Location = new Point(119, 590);
             btnAtualizar.Margin = new Padding(4);
             btnAtualizar.Name = "btnAtualizar";
-            btnAtualizar.Size = new Size(85, 30);
+            btnAtualizar.Size = new Size(105, 35);
             btnAtualizar.TabIndex = 14;
             btnAtualizar.Text = "Atualizar";
+            btnAtualizar.TextAlign = ContentAlignment.MiddleRight;
             btnAtualizar.UseVisualStyleBackColor = true;
             btnAtualizar.Click += btnAtualizar_Click;
             // 
             // bntExcluir
             // 
-            bntExcluir.Location = new Point(220, 590);
+            bntExcluir.Image = (Image)resources.GetObject("bntExcluir.Image");
+            bntExcluir.ImageAlign = ContentAlignment.MiddleLeft;
+            bntExcluir.Location = new Point(232, 590);
             bntExcluir.Margin = new Padding(4);
             bntExcluir.Name = "bntExcluir";
-            bntExcluir.Size = new Size(85, 30);
+            bntExcluir.Size = new Size(95, 35);
             bntExcluir.TabIndex = 15;
             bntExcluir.Text = "Excluir";
+            bntExcluir.TextAlign = ContentAlignment.MiddleRight;
             bntExcluir.UseVisualStyleBackColor = true;
             bntExcluir.Click += bntExcluir_Click;
             // 
@@ -255,7 +266,7 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(17, 103);
+            dataGridView1.Location = new Point(17, 98);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(629, 518);
             dataGridView1.TabIndex = 20;
@@ -264,19 +275,22 @@
             // btnPesquisar
             // 
             btnPesquisar.Font = new Font("Segoe UI", 12F);
-            btnPesquisar.Location = new Point(35, 66);
+            btnPesquisar.Image = (Image)resources.GetObject("btnPesquisar.Image");
+            btnPesquisar.ImageAlign = ContentAlignment.MiddleLeft;
+            btnPesquisar.Location = new Point(33, 59);
             btnPesquisar.Margin = new Padding(4);
             btnPesquisar.Name = "btnPesquisar";
-            btnPesquisar.Size = new Size(107, 30);
+            btnPesquisar.Size = new Size(107, 35);
             btnPesquisar.TabIndex = 21;
             btnPesquisar.Text = "Pesquisar";
+            btnPesquisar.TextAlign = ContentAlignment.MiddleRight;
             btnPesquisar.UseVisualStyleBackColor = true;
             btnPesquisar.Click += btnPesquisar_Click;
             // 
             // textBoxPesquisar
             // 
             textBoxPesquisar.Font = new Font("Segoe UI", 10F);
-            textBoxPesquisar.Location = new Point(160, 71);
+            textBoxPesquisar.Location = new Point(148, 66);
             textBoxPesquisar.Margin = new Padding(4);
             textBoxPesquisar.Name = "textBoxPesquisar";
             textBoxPesquisar.Size = new Size(315, 25);
@@ -294,11 +308,26 @@
             txtFormulario.TabIndex = 14;
             txtFormulario.Text = "Formulario";
             // 
+            // bntImprimir
+            // 
+            bntImprimir.Image = (Image)resources.GetObject("bntImprimir.Image");
+            bntImprimir.ImageAlign = ContentAlignment.TopLeft;
+            bntImprimir.Location = new Point(335, 590);
+            bntImprimir.Margin = new Padding(4);
+            bntImprimir.Name = "bntImprimir";
+            bntImprimir.Size = new Size(100, 35);
+            bntImprimir.TabIndex = 20;
+            bntImprimir.Text = "Imprimir";
+            bntImprimir.TextAlign = ContentAlignment.MiddleRight;
+            bntImprimir.UseVisualStyleBackColor = true;
+            bntImprimir.Click += button1_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1131, 635);
+            Controls.Add(bntImprimir);
             Controls.Add(txtFormulario);
             Controls.Add(panel1);
             Controls.Add(bntExcluir);
@@ -351,5 +380,6 @@
         private TextBox textBoxPesquisar;
         private Button btnPesquisar;
         private DataGridView dataGridView1;
+        private Button bntImprimir;
     }
 }

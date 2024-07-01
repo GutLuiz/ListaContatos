@@ -9,8 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="RelatorioContatos.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="RelatorioContatos.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="Microsoft.ReportingServices.ReportViewerControl.Winforms" Version="140.1000.523" />
     <PackageReference Include="Npgsql" Version="8.0.3" />
+    <PackageReference Include="ReportViewerCore.WinForms" Version="15.1.21" />
   </ItemGroup>
 
   <ItemGroup>

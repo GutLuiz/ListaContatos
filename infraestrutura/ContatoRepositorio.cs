@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace Contatos.infraestrutura
 {
     public class ContatoRepositorio
     {   // METODO PARA ADICIONAR NO BANCO DE DADOS
-        public bool Add(Formulario formulario)  
+        public bool Add(Formulario formulario)
         {
             using var conn = new Conexaobd();
 
@@ -58,8 +59,8 @@ namespace Contatos.infraestrutura
             int resultado = conn.Connection.Execute(sql: query, param: paramentros);
 
 
-            return resultado == 1; 
-                
+            return resultado == 1;
+
         }
 
         // METODO PARA MOSTRAR OS DADOS NA LISTA
@@ -101,8 +102,8 @@ namespace Contatos.infraestrutura
 
             return formularios;
         }
+   
 
-
-    }
+}
 
 }

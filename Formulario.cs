@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Contatos.infraestrutura;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +34,28 @@ namespace Contatos
             Numero2 = numero2;
             Fixo1 = fixo1;
             Fixo2 = fixo2;
+        }
+
+       public static DataTable ObterContatos()
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("Nome", typeof(string));
+            dt.Columns.Add("Empresa", typeof(string));
+            dt.Columns.Add("Numero1", typeof(string));
+            dt.Columns.Add("Numero2", typeof(string));
+            dt.Columns.Add("Fixo1", typeof(string));
+            dt.Columns.Add("Fixo2", typeof(string));
+
+            var repository = new ContatoRepositorio();
+            var contatos = repository.Get();
+
+            foreach (var contato in contatos)
+            {
+                dt.Rows.Add(contato.Nome, contato.Empresa, contato.Numero1, contato.Numero2, contato.Fixo1, contato.Fixo2);
+            }
+
+
+            return dt;
         }
     }
 }

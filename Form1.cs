@@ -1,6 +1,8 @@
 using Contatos.infraestrutura;
+using Microsoft.Reporting.WinForms;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -15,7 +17,7 @@ namespace Contatos
             InitializeComponent();
             CustomizeDataGridView();
         }
-        
+
         // Metodo que é chamado automaticamente quando o formulario é carregado pela primeira vez.
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -66,7 +68,7 @@ namespace Contatos
                 // Adicionando à lista
                 var lista = new Formulario(nome, empresa, numero1, numero2, fixo1, fixo2);
                 Formularios.Add(lista);
-                
+
                 // adicionando o metodo e armazenando no banco de dados
                 var repository = new ContatoRepositorio();
                 repository.Add(lista);
@@ -89,7 +91,7 @@ namespace Contatos
                 // chama o metodo  'get' do repositorio para obter a lista de formalarios (contatos)
                 Formularios = repository.Get();
                 // Limpa o DataGridView antes de adicionar novos itens
-                dataGridView1.Rows.Clear(); 
+                dataGridView1.Rows.Clear();
 
                 // Itera sobre cada item na lista e adiciona uma nova linha ao "dataGrid" para cada item, preenchendo as colunas com os valores correspondentes
                 foreach (var item in Formularios)
@@ -149,12 +151,12 @@ namespace Contatos
 
         private void BuscarDados()
         {
-              try
+            try
             {   // Iteração sobre as linhas do DataGridView sobre cada linha 
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
                     //Verifica o texto "textBoxPesquisar" corresponde ao valor da celular "Nome". Se essa condição for verdadeira, a linha sera selecionada
-                    if (textBoxPesquisar.Text == row.Cells["Nome"].Value.ToString());
+                    if (textBoxPesquisar.Text == row.Cells["Nome"].Value.ToString()) ;
                     {
                         row.Selected = true;
                         dataGridView1.FirstDisplayedScrollingRowIndex = row.Index;
@@ -168,8 +170,8 @@ namespace Contatos
                 MessageBox.Show($"Erro ao obter dados: {ex.Message}");
             }
         }
-          
-        
+
+
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
 
@@ -183,7 +185,7 @@ namespace Contatos
                 // verifica a seleção de linhas se for maior que 0 entra na condicional
                 if (dataGridView1.SelectedRows.Count > 0)
                 {
-                   
+
                     // Obtem a primeira linha selecionada e o valor da celular "Nome" dessa linha
                     var selecionada = dataGridView1.SelectedRows[0];
                     var nome = selecionada.Cells["Nome"].Value.ToString();
@@ -242,7 +244,7 @@ namespace Contatos
             if (atualizado)
             {
                 MessageBox.Show("Informações atualizadas com sucesso");
-                ObterDados(); 
+                ObterDados();
             }
             else
             {
@@ -278,6 +280,11 @@ namespace Contatos
         private void textBoxPesquisar_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (var frm = new Form2()) frm.ShowDialog();
         }
     }
 }
