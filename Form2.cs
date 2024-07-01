@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows.Forms;
 using Microsoft.Reporting.WinForms;
-using Contatos.infraestrutura; // Adicionando namespace do repositório
+using Contatos.infraestrutura; 
 
 namespace Contatos
 {
@@ -11,11 +11,6 @@ namespace Contatos
         public Form2()
         {
             InitializeComponent();
-
-           
-
-           
-
         }
 
         private void reportViewer1_Load(object sender, EventArgs e)
